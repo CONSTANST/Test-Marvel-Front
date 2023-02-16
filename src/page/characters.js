@@ -25,25 +25,37 @@ const Characters = () => {
     };
     fetchData();
   }, [limit, skip]);
-
   const handleLimitChange = (event) => {
     setLimit(event.target.value);
     setSkip(0);
     // reset skip to 0 when limit changes
   };
-  const handleSkipChange = (newSkip) => {
-    setSkip(newSkip);
+
+  const handleCounterChange = (increment) => {
+    const newSkip = skip + increment;
+    if (newSkip >= 0) {
+      setSkip(newSkip);
+    }
   };
 
-  // Determine the total number of pages
-  const pageCount = data ? Math.ceil(data.count / limit) : 0;
-  // console.log("limit :", limit);
-  // console.log("data.total :", data.total);
-  console.log(pageCount);
+  // const handleLimitChange = (event) => {
+  //   setLimit(event.target.value);
+  //   setSkip(0);
+  //   // reset skip to 0 when limit changes
+  // };
+  // const handleSkipChange = (newSkip) => {
+  //   setSkip(newSkip);
+  // };
 
-  // Create an array of page numbers to display
-  const pageNumbers = [...Array(pageCount).keys()].map((num) => num + 1);
-  // console.log(pageNumbers);
+  // // Determine the total number of pages
+  // const pageCount = data ? Math.ceil(data.count / limit) : 0;
+  // // console.log("limit :", limit);
+  // // console.log("data.total :", data.total);
+  // console.log(pageCount);
+
+  // // Create an array of page numbers to display
+  // const pageNumbers = [...Array(pageCount).keys()].map((num) => num + 1);
+  // // console.log(pageNumbers);
   return isLoading ? (
     <p>Loading...</p>
   ) : (
@@ -61,7 +73,15 @@ const Characters = () => {
 
       {/* Pagination buttons */}
       <div>
-        <button onClick={() => handleSkipChange(0)}>1</button>
+        <div>
+          <button onClick={() => handleCounterChange(-1)}>-</button>
+          <span style={{margin: "0 10px"}}>
+            Page {Math.ceil(skip / limit) + 1}
+          </span>
+          <button onClick={() => handleCounterChange(1)}>+</button>
+        </div>
+
+        {/* <button onClick={() => handleSkipChange(0)}>1</button>
         <button onClick={() => handleSkipChange(limit)}>2</button>
         {pageNumbers.slice(2, -2).map((pageNum) => (
           <button
@@ -78,7 +98,7 @@ const Characters = () => {
               Last
             </button>
           </>
-        )}
+        )} */}
       </div>
       <Character data={data} />
     </div>

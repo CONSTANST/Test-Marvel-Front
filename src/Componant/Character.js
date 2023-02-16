@@ -10,7 +10,7 @@ const Character = ({data}) => {
           >
             <Link key={character._id} to={`/characterdetails/${character._id}`}>
               <article key={character._id}>
-                <p>{character.name}</p>
+                <p style={{color: "lightgray"}}>{character.name}</p>
                 <img
                   src={
                     character.thumbnail.path +

@@ -4,6 +4,7 @@ import axios from "axios";
 import logo from "../img/logo.png";
 import Limit from "../Componant/limitSelect";
 import Character from "../Componant/Character";
+import Pagination from "../Componant/Pagination";
 const Characters = () => {
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(true);
@@ -31,31 +32,6 @@ const Characters = () => {
     // reset skip to 0 when limit changes
   };
 
-  const handleCounterChange = (increment) => {
-    const newSkip = skip + increment;
-    if (newSkip >= 0) {
-      setSkip(newSkip);
-    }
-  };
-
-  // const handleLimitChange = (event) => {
-  //   setLimit(event.target.value);
-  //   setSkip(0);
-  //   // reset skip to 0 when limit changes
-  // };
-  // const handleSkipChange = (newSkip) => {
-  //   setSkip(newSkip);
-  // };
-
-  // // Determine the total number of pages
-  // const pageCount = data ? Math.ceil(data.count / limit) : 0;
-  // // console.log("limit :", limit);
-  // // console.log("data.total :", data.total);
-  // console.log(pageCount);
-
-  // // Create an array of page numbers to display
-  // const pageNumbers = [...Array(pageCount).keys()].map((num) => num + 1);
-  // // console.log(pageNumbers);
   return isLoading ? (
     <p>Loading...</p>
   ) : (
@@ -73,34 +49,22 @@ const Characters = () => {
 
       {/* Pagination buttons */}
       <div>
-        <div>
-          <button onClick={() => handleCounterChange(-1)}>-</button>
-          <span style={{margin: "0 10px"}}>
-            Page {Math.ceil(skip / limit) + 1}
-          </span>
-          <button onClick={() => handleCounterChange(1)}>+</button>
-        </div>
-
-        {/* <button onClick={() => handleSkipChange(0)}>1</button>
-        <button onClick={() => handleSkipChange(limit)}>2</button>
-        {pageNumbers.slice(2, -2).map((pageNum) => (
-          <button
-            key={pageNum}
-            onClick={() => handleSkipChange((pageNum - 1) * limit)}
-          >
-            {pageNum}
-          </button>
-        ))}
-        {pageCount > 5 && (
-          <>
-            <span>...</span>
-            <button onClick={() => handleSkipChange((pageCount - 1) * limit)}>
-              Last
-            </button>
-          </>
-        )} */}
+        <Pagination
+          limit={limit}
+          data={data}
+          currentPage={skip}
+          setCurrentPage={setSkip}
+        />
       </div>
       <Character data={data} />
+      <div>
+        <Pagination
+          limit={limit}
+          data={data}
+          currentPage={skip}
+          setCurrentPage={setSkip}
+        />
+      </div>
     </div>
   );
 };

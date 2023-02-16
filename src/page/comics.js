@@ -36,7 +36,7 @@ const Comics = () => {
                 style={{
                   width: "400px",
                   height: "200px",
-                  objectFit: "cover",
+                  objectFit: "contain",
                 }}
               />
               <p key={comic._id} style={{color: "lightgray"}}>

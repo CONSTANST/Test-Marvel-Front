@@ -28,16 +28,27 @@ const CharacterDetail = () => {
       }
     };
     fetchCharacter();
-  }, []);
+  }, [id]);
 
   if (!character) {
     return <div>Loading...</div>;
   }
 
   return (
-    <div>
-      <h2>{character.name}</h2>
-      <p>{character.description}</p>
+    <div style={{display: "flex", backgroundColor: "black"}}>
+      <div>
+        <h2 style={{color: "lightgray"}}>{character.name}</h2>
+        <ul>
+          {character.comics.map((comic) => (
+            <li style={{color: "lightgray"}} key={comic}>
+              {comic}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <p style={{color: "lightgray"}}>{character.description}</p>
+
       <img
         src={character.thumbnail.path + "." + character.thumbnail.extension}
         alt="character"

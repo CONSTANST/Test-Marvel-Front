@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {useParams} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 // import {Link} from "react-router-dom";
 import axios from "axios";
 
@@ -16,7 +16,7 @@ const CharacterDetail = () => {
   //   console.log(useParams());
   //   console.log(id);
   useEffect(() => {
-    const fetchCharacter = async () => {
+    const fetchData = async () => {
       try {
         const response = await axios.get(
           `http://localhost:3000/character/${id}`
@@ -27,22 +27,23 @@ const CharacterDetail = () => {
         console.log(error);
       }
     };
-    fetchCharacter();
+    fetchData();
   }, [id]);
+  // console.log(character.comics);
 
-  if (!character) {
-    return <div>Loading...</div>;
-  }
-
-  return (
+  return !character ? (
+    <div>Loading...</div>
+  ) : (
     <div style={{display: "flex", backgroundColor: "black"}}>
       <div>
         <h2 style={{color: "lightgray"}}>{character.name}</h2>
         <ul>
-          {character.comics.map((comic) => (
-            <li style={{color: "lightgray"}} key={comic}>
-              {comic}
-            </li>
+          {character.comics.map((comic, index) => (
+            <Link key={index} to={`/characterInComics/${comic}`}>
+              <li style={{color: "lightgray"}} key={comic}>
+                {comic}
+              </li>
+            </Link>
           ))}
         </ul>
       </div>

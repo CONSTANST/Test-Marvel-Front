@@ -24,6 +24,7 @@ const Character = ({data}) => {
                     objectFit: "contain",
                   }}
                 />
+                <p tyle={{color: "lightgray"}}> {character.description}</p>
               </article>
             </Link>
           </div>

@@ -21,7 +21,7 @@ const Pagination = ({limit, data, currentPage, setCurrentPage}) => {
     <div>
       <button
         onClick={handleFirst}
-        disabled={currentPage === 1}
+        disabled={currentPage === 0}
         style={{color: "lightgray"}}
       >
         &lt;&lt;
@@ -29,12 +29,12 @@ const Pagination = ({limit, data, currentPage, setCurrentPage}) => {
       <button
         style={{color: "lightgray"}}
         onClick={handlePrev}
-        disabled={currentPage === 1}
+        disabled={currentPage === 0}
       >
         &lt;
       </button>
       <span style={{color: "lightgray"}}>
-        Page {currentPage} of {pageCount}
+        Page {currentPage} sur {pageCount}
       </span>
       <button
         style={{color: "lightgray"}}

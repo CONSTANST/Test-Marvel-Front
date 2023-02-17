@@ -1,12 +1,13 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
+import ComicsList from "../Componant/ComicsList";
 
 const Comics = () => {
   const [comics, setComics] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchComics = async () => {
+    const fetchData = async () => {
       try {
         const response = await axios.get("http://localhost:3000/comics");
         // console.log(response.data.results);
@@ -16,7 +17,7 @@ const Comics = () => {
         console.log(error);
       }
     };
-    fetchComics();
+    fetchData();
   }, []);
 
   return isLoading ? (
@@ -24,27 +25,7 @@ const Comics = () => {
   ) : (
     <div style={{backgroundColor: "black"}}>
       <h1 style={{color: "lightgray"}}>Comics</h1>
-      <div style={{display: "flex", flexWrap: "wrap"}}>
-        {comics
-          .sort((a, b) => a.title.localeCompare(b.title))
-          .map((comic) => (
-            <div key={comic._id} style={{flex: "20%", margin: "0 50px 50px 0"}}>
-              <h2 style={{color: "lightgray"}}>{comic.title}</h2>
-              <img
-                src={`${comic.thumbnail.path}.${comic.thumbnail.extension}`}
-                alt={comic.title}
-                style={{
-                  width: "400px",
-                  height: "200px",
-                  objectFit: "contain",
-                }}
-              />
-              <p key={comic._id} style={{color: "lightgray"}}>
-                {comic.description}
-              </p>
-            </div>
-          ))}
-      </div>
+      <ComicsList comics={comics} />
     </div>
   );
 };

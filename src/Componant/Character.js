@@ -1,7 +1,18 @@
+// import {useState} from "react";
 import {Link} from "react-router-dom";
-const Character = ({data}) => {
+
+const Character = ({data, search}) => {
+  // const [query, setQuery] = useState("");
+
+  // const handleInputChange = (event) => {
+  //   const {value} = event.target;
+  //   setQuery(value);
+  //   search(value);
+  // };
+
   return (
     <div style={{display: "flex", flexWrap: "wrap"}}>
+      {/* <input type="text" value={query} onChange={handleInputChange} /> */}
       {data.results.map((character) => {
         return (
           <div

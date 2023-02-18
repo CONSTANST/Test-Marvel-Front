@@ -1,5 +1,8 @@
+/// dependencies///
 import React, {useEffect, useState} from "react";
 import axios from "axios";
+import Fuse from "fuse.js";
+/// Components///
 import ComicsList from "../Componant/ComicsList";
 import Limit from "../Componant/limitSelect";
 import Pagination from "../Componant/Pagination";
@@ -11,6 +14,10 @@ const Comics = () => {
 
   const [limit, setLimit] = useState(10);
   const [skip, setSkip] = useState(0);
+
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [isSearching, setIsSearching] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,36 +35,79 @@ const Comics = () => {
     };
     fetchData();
   }, [limit, skip]);
-  console.log(comics);
+
+  // console.log(comics);
+
   const handleLimitChange = (event) => {
     setLimit(event.target.value);
     setSkip(0);
     // reset skip to 0 when limit changes
+    setSearchResults([]);
   };
-
+  const handleSearch = (event) => {
+    const query = event.target.value;
+    setSearchQuery(query);
+    if (query.length > 0) {
+      setIsSearching(true);
+      const fuse = new Fuse(comics, {
+        keys: ["name", "title"],
+      });
+      const results = fuse.search(query);
+      setSearchResults(results);
+      setIsSearching(false);
+    } else setSearchResults([]);
+  };
   return isLoading ? (
     <p>Loading...</p>
   ) : (
     <div style={{backgroundColor: "black"}}>
       <h1 style={{color: "lightgray"}}>Comics</h1>
-      <Limit limit={limit} handleLimitChange={handleLimitChange} />
-      <div>
-        <Pagination
-          limit={limit}
-          data={pageCount}
-          currentPage={skip}
-          setCurrentPage={setSkip}
-        />
-      </div>
-      <ComicsList comics={comics} />
-      <div>
-        <Pagination
-          limit={limit}
-          data={pageCount}
-          currentPage={skip}
-          setCurrentPage={setSkip}
-        />
-      </div>
+      <input type="texte" value={searchQuery} onChange={handleSearch} />
+      {isSearching && <p> Loading search...</p>}
+      {searchResults.length > 0 && (
+        <div>
+          <Limit limit={limit} handleLimitChange={handleLimitChange} />
+          <div>
+            <Pagination
+              limit={limit}
+              data={pageCount}
+              currentPage={skip}
+              setCurrentPage={setSkip}
+            />
+          </div>
+          <ComicsList comics={searchResults.map((result) => result.item)} />
+          <div>
+            <Pagination
+              limit={limit}
+              data={pageCount}
+              currentPage={skip}
+              setCurrentPage={setSkip}
+            />
+          </div>
+        </div>
+      )}
+      {searchResults.length === 0 && (
+        <div>
+          <Limit limit={limit} handleLimitChange={handleLimitChange} />
+          <div>
+            <Pagination
+              limit={limit}
+              data={pageCount}
+              currentPage={skip}
+              setCurrentPage={setSkip}
+            />
+          </div>
+          <ComicsList comics={comics} />
+          <div>
+            <Pagination
+              limit={limit}
+              data={pageCount}
+              currentPage={skip}
+              setCurrentPage={setSkip}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

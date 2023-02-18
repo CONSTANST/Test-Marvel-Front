@@ -1,16 +1,23 @@
 import {useEffect, useState} from "react";
-// import {Link} from "react-router-dom";
 import axios from "axios";
-import logo from "../img/logo.png";
+import Fuse from "fuse.js";
+// import logo from "../img/logo.png";
 import Limit from "../Componant/limitSelect";
 import Character from "../Componant/Character";
 import Pagination from "../Componant/Pagination";
-const Characters = () => {
-  const [data, setData] = useState();
-  const [isLoading, setIsLoading] = useState(true);
 
+const Characters = () => {
+  const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [searchResults, setSearchResults] = useState([]);
   const [limit, setLimit] = useState(10);
   const [skip, setSkip] = useState(0);
+  const [query, setQuery] = useState("");
+
+  const fuse = new Fuse(data, {
+    keys: ["name", "description", "comics.items.name"],
+    includeScore: true,
+  });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -26,32 +33,35 @@ const Characters = () => {
     };
     fetchData();
   }, [limit, skip]);
+
   const handleLimitChange = (event) => {
     setLimit(event.target.value);
     setSkip(0);
-    // reset skip to 0 when limit changes
+    setSearchResults([]);
+  };
+
+  const handleInputChange = (event) => {
+    const {value} = event.target;
+    setQuery(value);
+    const results = fuse.search(value);
+    setSearchResults(results.map((result) => console.log(result)));
   };
 
   return isLoading ? (
     <p>Loading...</p>
   ) : (
     <div style={{backgroundColor: "black"}}>
-      <img
-        src={logo}
-        alt="logo marvel"
-        style={{
-          width: "400px",
-          maxWidth: "100%",
-          height: "auto",
-        }}
-      />
       <Limit limit={limit} handleLimitChange={handleLimitChange} />
-
-      {/* Pagination buttons */}
+      <input
+        type="text"
+        placeholder="Search characters"
+        value={query}
+        onChange={handleInputChange}
+      />
       <div>
         <Pagination
           limit={limit}
-          data={data}
+          data={searchResults}
           currentPage={skip}
           setCurrentPage={setSkip}
         />
@@ -60,7 +70,7 @@ const Characters = () => {
       <div>
         <Pagination
           limit={limit}
-          data={data}
+          data={searchResults}
           currentPage={skip}
           setCurrentPage={setSkip}
         />
@@ -68,4 +78,5 @@ const Characters = () => {
     </div>
   );
 };
+
 export default Characters;

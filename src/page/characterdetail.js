@@ -12,6 +12,8 @@ const CharacterDetail = () => {
   // Afficher les détails du personnage
   const {id} = useParams();
   const [character, setCharacter] = useState(null);
+  const [characterId, setCharacterId] = useState();
+
   console.log(character);
   //   console.log(useParams());
   //   console.log(id);
@@ -23,6 +25,7 @@ const CharacterDetail = () => {
         );
         // console.log(response);
         setCharacter(response.data);
+        setCharacterId(response.data._id);
       } catch (error) {
         console.log(error);
       }
@@ -30,7 +33,9 @@ const CharacterDetail = () => {
     fetchData();
   }, [id]);
   // console.log(character.comics);
-
+  console.log(character);
+  console.log(characterId);
+  // const characterId = character._id;
   return !character ? (
     <div>Loading...</div>
   ) : (
@@ -39,7 +44,7 @@ const CharacterDetail = () => {
         <h2 style={{color: "lightgray"}}>{character.name}</h2>
         <ul>
           {character.comics.map((comic, index) => (
-            <Link key={index} to={`/characterInComics/${comic}`}>
+            <Link key={index} to={`/characterInComics/${characterId}`}>
               <li style={{color: "lightgray"}} key={comic}>
                 {comic}
               </li>

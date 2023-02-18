@@ -6,16 +6,18 @@ import axios from "axios";
 const CharacterInComics = () => {
   const {id} = useParams();
   const [comics, setComics] = useState(null);
-  console.log(comics);
-
-  //   console.log(useParams());
-  //   console.log(id);
+  // console.log(characterId);
+  // console.log(comics);
+  // console.log(useParams());
+  // console.log(id);
+  // console.log(comic);
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(`http://localhost:3000/comics/${id}`);
         // console.log(response);
-        setComics(response.data);
+        // console.log(response.data);
+        setComics(response.data.comics);
       } catch (error) {
         console.log(error);
       }
@@ -35,12 +37,10 @@ const CharacterInComics = () => {
     <p>Loading...</p>
   ) : (
     <div style={{display: "flex", flexWrap: "wrap", backgroundColor: "black"}}>
-      {comics.results.map((comic) => {
+      {comics.map((comic) => {
         return (
-          <div style={{flex: "20%", margin: "0 50px 50px 0"}}>
-            <p key={comic._id} style={{color: "lightgray"}}>
-              {comic.title}
-            </p>
+          <div key={comic._id} style={{flex: "20%", margin: "0 50px 50px 0"}}>
+            <p style={{color: "lightgray"}}>{comic.title}</p>
             <img
               src={`${comic.thumbnail.path}.${comic.thumbnail.extension}`}
               alt={comic.title}
@@ -50,6 +50,7 @@ const CharacterInComics = () => {
                 objectFit: "contain",
               }}
             />
+            <p style={{color: "lightgray"}}>{comic.description}</p>
           </div>
         );
       })}

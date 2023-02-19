@@ -26,8 +26,8 @@ const Comics = ({token}) => {
         const response = await axios.get(
           `http://localhost:3000/comics?limit=${limit}&skip=${skip * limit}`
         );
-        // console.log(response);
-        // console.log(response.data.results);
+        console.log(response.data);
+        console.log(response.data.results);
         setPageCount(response.data);
         setComics(response.data.results);
         setIsLoading(false);
@@ -54,7 +54,9 @@ const Comics = ({token}) => {
       const fuse = new Fuse(comics, {
         keys: ["name", "title"],
       });
+      console.log(fuse);
       const results = fuse.search(query);
+      console.log(results);
       setSearchResults(results);
       setIsSearching(false);
     } else setSearchResults([]);

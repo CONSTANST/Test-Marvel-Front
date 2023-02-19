@@ -17,6 +17,7 @@ const Singup = ({setUser}) => {
       const response = await axios.post(`http://localhost:3000/user/signup`, {
         email: email,
         password: password,
+        username: userName,
       });
       if (response.data.token) {
         setUser(response.data.token);
@@ -68,7 +69,9 @@ const Singup = ({setUser}) => {
           placeholder="Mot de passe"
         />
         <p>{errorMessage}</p>
-        <button type="submit"> S'inscrire</button>
+        <button onSubmit={handleSingup} type="submit">
+          S'inscrire
+        </button>
       </form>
       <Link to="/login"> Tu as déjà un compte? Connecte-toi!</Link>
     </div>

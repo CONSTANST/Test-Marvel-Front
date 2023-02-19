@@ -27,7 +27,7 @@ const Header = () => {
       </div>
       <div>
         <button
-          style={{color: "lightgray"}}
+          style={{color: "black"}}
           onClick={() => {
             navigate("/");
           }}
@@ -35,12 +35,28 @@ const Header = () => {
           Personnage
         </button>
         <button
-          style={{color: "lightgray"}}
+          style={{color: "black"}}
           onClick={() => {
             navigate("/comics");
           }}
         >
           Comics
+        </button>
+        <button
+          style={{color: "black"}}
+          onClick={() => {
+            navigate("/user/signup");
+          }}
+        >
+          S'enregistrer
+        </button>
+        <button
+          style={{color: "black"}}
+          onClick={() => {
+            navigate("/login");
+          }}
+        >
+          Se connecter
         </button>
       </div>
     </div>

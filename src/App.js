@@ -5,8 +5,8 @@ import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
 // pages //
 import Header from "./Componant/Header";
 //Login/signup//
-// import Singup from "./page/Signup";
-// import Login from "./page/loging";
+import Signup from "./page/signup";
+import Login from "./page/loging";
 //Corps du site //
 import Comics from "./page/comics";
 import Characters from "./page/characters";
@@ -30,8 +30,22 @@ function App() {
     <Router>
       <Header />
       <Routes>
-        {/* <Route path="/signup" element={<Singup setUser={setUser} />}></Route>
-        <Route path="/login" element={<Login setUser={setUser} />}></Route> */}
+        <Route
+          path="/user/signup"
+          element={
+            <Signup
+            // setUser={setUser}
+            />
+          }
+        ></Route>
+        <Route
+          path="/login"
+          element={
+            <Login
+            // setUser={setUser}
+            />
+          }
+        ></Route>
         <Route
           path="/"
           element={

@@ -68,13 +68,17 @@ const Login = ({setUser}) => {
           placeholder="Mot de passe"
         />
         <p>{errorMessage}</p>
+        <button onSubmit={handleLogin} type="submit">
+          Se connecter
+        </button>
       </form>
       {/*  {isLoading ? ( */}
       {/* //   <>
           
       // ) : (
-      //   <Link to="/signup"> Pas encore de compte? Inscris-toi!</Link>
-      // )} */}
+       
+      // )} */}{" "}
+      <Link to="/user/signup"> Pas encore de compte? Inscris-toi!</Link>
     </div>
   );
 };

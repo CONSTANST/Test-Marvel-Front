@@ -13,7 +13,7 @@ const Character = ({data, search}) => {
   return (
     <div style={{display: "flex", flexWrap: "wrap"}}>
       {/* <input type="text" value={query} onChange={handleInputChange} /> */}
-      {data.results.map((character) => {
+      {data.map((character) => {
         return (
           <div
             key={character._id}

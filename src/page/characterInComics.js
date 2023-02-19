@@ -1,5 +1,7 @@
 import {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
+import addFavorite from "../Componant/addFav";
+import removeFavorite from "../Componant/removeFav";
 // import {Link} from "react-router-dom";
 import axios from "axios";
 // import {Navigate} from "react-router-dom";
@@ -52,6 +54,8 @@ const CharacterInComics = ({token}) => {
               }}
             />
             <p style={{color: "lightgray"}}>{comic.description}</p>
+            <button onClick={addFavorite}> Ajouter au favoris?</button>
+            <button onClick={removeFavorite}> Retirer des favoris</button>
           </div>
         );
       })}

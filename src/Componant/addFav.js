@@ -6,3 +6,4 @@ const addFavorite = (id, type) => {
     localStorage.setItem("favorites", JSON.stringify(favorites));
   }
 };
+export default addFavorite;

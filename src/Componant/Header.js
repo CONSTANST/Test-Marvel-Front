@@ -45,6 +45,14 @@ const Header = () => {
         <button
           style={{color: "black"}}
           onClick={() => {
+            navigate("/favoris");
+          }}
+        >
+          Favoris
+        </button>
+        <button
+          style={{color: "black"}}
+          onClick={() => {
             navigate("/user/signup");
           }}
         >

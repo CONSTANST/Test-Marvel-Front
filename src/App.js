@@ -4,6 +4,7 @@ import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
 // import Cookies from "js-cookie";
 // pages //
 import Header from "./Componant/Header";
+import Favoris from "./page/favoris";
 //Login/signup//
 import Signup from "./page/signup";
 import Login from "./page/loging";
@@ -78,6 +79,7 @@ function App() {
             />
           }
         ></Route>
+        <Route path="/favoris" element={<Favoris />}></Route>
       </Routes>
     </Router>
   );

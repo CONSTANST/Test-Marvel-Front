@@ -7,3 +7,4 @@ const removeFavorite = (id, type) => {
     localStorage.setItem("favorites", JSON.stringify(favorites));
   }
 };
+export default removeFavorite;

@@ -1,6 +1,7 @@
 // import {useState} from "react";
 import {Link} from "react-router-dom";
-
+// import addFavorite from "./addFav";
+// import removeFavorite from "./removeFav";
 const Character = ({data, search}) => {
   // const [query, setQuery] = useState("");
 

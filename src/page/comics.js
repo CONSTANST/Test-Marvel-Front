@@ -1,5 +1,6 @@
 /// dependencies///
 import React, {useEffect, useState} from "react";
+// import {Navigate} from "react-router-dom";
 import axios from "axios";
 import Fuse from "fuse.js";
 /// Components///
@@ -7,11 +8,11 @@ import ComicsList from "../Componant/ComicsList";
 import Limit from "../Componant/limitSelect";
 import Pagination from "../Componant/Pagination";
 
-const Comics = () => {
+const Comics = ({token}) => {
   const [comics, setComics] = useState();
   const [isLoading, setIsLoading] = useState(true);
-  const [pageCount, setPageCount] = useState();
 
+  const [pageCount, setPageCount] = useState();
   const [limit, setLimit] = useState(10);
   const [skip, setSkip] = useState(0);
 
@@ -25,6 +26,7 @@ const Comics = () => {
         const response = await axios.get(
           `http://localhost:3000/comics?limit=${limit}&skip=${skip * limit}`
         );
+        // console.log(response);
         // console.log(response.data.results);
         setPageCount(response.data);
         setComics(response.data.results);
@@ -110,6 +112,11 @@ const Comics = () => {
       )}
     </div>
   );
+  //   token ? (
+  //* Si token alors corps du site
+  // ) : (
+  //   <Navigate to="/login" />
+  // )
 };
 
 export default Comics;

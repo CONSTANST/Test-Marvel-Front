@@ -2,8 +2,9 @@ import {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 // import {Link} from "react-router-dom";
 import axios from "axios";
+// import {Navigate} from "react-router-dom";
 
-const CharacterInComics = () => {
+const CharacterInComics = ({token}) => {
   const {id} = useParams();
   const [comics, setComics] = useState(null);
   // console.log(characterId);
@@ -16,7 +17,7 @@ const CharacterInComics = () => {
       try {
         const response = await axios.get(`http://localhost:3000/comics/${id}`);
         // console.log(response);
-        // console.log(response.data);
+        console.log(response.data);
         setComics(response.data.comics);
       } catch (error) {
         console.log(error);
@@ -56,5 +57,10 @@ const CharacterInComics = () => {
       })}
     </div>
   );
+  //   token ? (
+  //* Si token alors corps du site
+  // ) : (
+  //   <Navigate to="/login" />
+  // )
 };
 export default CharacterInComics;

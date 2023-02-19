@@ -1,4 +1,5 @@
 import {useEffect, useState} from "react";
+// import {Navigate} from "react-router-dom";
 import axios from "axios";
 import Fuse from "fuse.js";
 // import logo from "../img/logo.png";
@@ -6,18 +7,19 @@ import Limit from "../Componant/limitSelect";
 import Character from "../Componant/Character";
 import Pagination from "../Componant/Pagination";
 
-const Characters = () => {
+const Characters = ({token}) => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [searchResults, setSearchResults] = useState([]);
+
+  // const [searchResults, setSearchResults] = useState([]);
+  const [pageCount, setPageCount] = useState([]);
+
   const [limit, setLimit] = useState(10);
   const [skip, setSkip] = useState(0);
-  const [query, setQuery] = useState("");
 
-  const fuse = new Fuse(data, {
-    keys: ["name", "description", "comics.items.name"],
-    includeScore: true,
-  });
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQueryResults, setSearchQueryResults] = useState([]);
+  const [isSearching, setIsSearching] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,6 +27,9 @@ const Characters = () => {
         const response = await axios.get(
           `http://localhost:3000/characters?limit=${limit}&skip=${skip * limit}`
         );
+        // console.log(response);
+        // console.log(response.data);
+        setPageCount(response.data);
         setData(response.data);
         setIsLoading(false);
       } catch (error) {
@@ -34,49 +39,90 @@ const Characters = () => {
     fetchData();
   }, [limit, skip]);
 
+  const handleSearch = (event) => {
+    const query = event.target.value;
+    setSearchQuery(query);
+    if (query.length > 0) {
+      setIsSearching(true);
+      const fuse = new Fuse(data, {
+        keys: ["name", "description"],
+        includeScore: true,
+      });
+      const results = fuse.search(query);
+      setSearchQueryResults(results);
+      setIsSearching(false);
+    } else setSearchQueryResults([]);
+  };
   const handleLimitChange = (event) => {
     setLimit(event.target.value);
     setSkip(0);
-    setSearchResults([]);
-  };
-
-  const handleInputChange = (event) => {
-    const {value} = event.target;
-    setQuery(value);
-    const results = fuse.search(value);
-    setSearchResults(results.map((result) => console.log(result)));
+    setSearchQueryResults([]);
   };
 
   return isLoading ? (
     <p>Loading...</p>
   ) : (
     <div style={{backgroundColor: "black"}}>
-      <Limit limit={limit} handleLimitChange={handleLimitChange} />
       <input
         type="text"
         placeholder="Search characters"
-        value={query}
-        onChange={handleInputChange}
+        value={searchQuery}
+        onChange={handleSearch}
       />
-      <div>
-        <Pagination
-          limit={limit}
-          data={searchResults}
-          currentPage={skip}
-          setCurrentPage={setSkip}
-        />
-      </div>
-      <Character data={data} />
-      <div>
-        <Pagination
-          limit={limit}
-          data={searchResults}
-          currentPage={skip}
-          setCurrentPage={setSkip}
-        />
-      </div>
+      {isSearching && <p> Loading search...</p>}
+      {searchQueryResults.length > 0 && (
+        <div>
+          <Limit limit={limit} handleLimitChange={handleLimitChange} />
+
+          <div>
+            <Pagination
+              limit={limit}
+              data={pageCount}
+              currentPage={skip}
+              setCurrentPage={setSkip}
+            />
+          </div>
+          <Character data={searchQueryResults.map((result) => result.item)} />
+          <div>
+            <Pagination
+              limit={limit}
+              data={pageCount}
+              currentPage={skip}
+              setCurrentPage={setSkip}
+            />
+          </div>
+        </div>
+      )}
+      {searchQueryResults.length === 0 && (
+        <div>
+          <Limit limit={limit} handleLimitChange={handleLimitChange} />
+
+          <div>
+            <Pagination
+              limit={limit}
+              data={pageCount}
+              currentPage={skip}
+              setCurrentPage={setSkip}
+            />
+          </div>
+          <Character data={data} />
+          <div>
+            <Pagination
+              limit={limit}
+              data={pageCount}
+              currentPage={skip}
+              setCurrentPage={setSkip}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
+  //   token ? (
+  //* Si token alors corps du site
+  // ) : (
+  //   <Navigate to="/login" />
+  // )
 };
 
 export default Characters;
